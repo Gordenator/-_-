@@ -1,0 +1,284 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    /* Основные стили */
+    .hero {
+        background: linear-gradient(rgba(10, 36, 99, 0.7), rgba(10, 36, 99, 0.7)),
+                    url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: white;
+        padding: 0 2rem;
+    }
+
+    .hero h1 {
+        font-family: 'Marck Script', cursive;
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero p {
+        font-size: 1.5rem;
+        max-width: 800px;
+        margin: 0 auto 3rem;
+        line-height: 1.6;
+    }
+
+    .btn {
+        display: inline-block;
+        background-color: #d4af37;
+        color: #0a2463;
+        padding: 1rem 2.5rem;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+
+    .btn:hover {
+        background-color: #f5d7b3;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+    }
+
+    .section {
+        padding: 5rem 0;
+    }
+
+    .section-title {
+        text-align: center;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 2.5rem;
+        color: #0a2463;
+        margin-bottom: 3rem;
+        position: relative;
+    }
+
+    .section-title:after {
+        content: '';
+        position: absolute;
+        width: 100px;
+        height: 3px;
+        background: #d4af37;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    /* Галерея интерьеров */
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin: 3rem 0;
+    }
+
+    .gallery-item {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        height: 250px;
+    }
+
+    .gallery-item:hover {
+        transform: translateY(-10px);
+    }
+
+    .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Блок с хитами меню */
+    .menu-highlight {
+        background: linear-gradient(to bottom, #f9f9f9, #ffffff);
+    }
+
+    .dishes {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 3rem 0;
+    }
+
+    .dish {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .dish:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .dish img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .dish-content {
+        padding: 1.5rem;
+    }
+
+    .dish h3 {
+        margin: 0 0 0.5rem;
+        color: #0a2463;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.5rem;
+    }
+
+    .dish p {
+        color: #1a3a6e;
+        margin-bottom: 1rem;
+    }
+
+    .dish .price {
+        font-weight: 700;
+        color: #d4af37;
+        font-size: 1.3rem;
+    }
+
+    /* Карта */
+    .map-container {
+        height: 500px;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+        margin-top: 3rem;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    /* Призыв к действию */
+    .cta-section {
+        background: linear-gradient(rgba(10, 36, 99, 0.8), rgba(10, 36, 99, 0.8)),
+                   url('https://images.unsplash.com/photo-1544148103-0773bf10d330?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 5rem 0;
+        text-align: center;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 768px) {
+        .hero h1 {
+            font-size: 2.5rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+        }
+    }
+</style>
+
+<!-- Герой-секция с интерьером -->
+<section class="hero">
+    <div class="container">
+        <h1>Тихая гавань</h1>
+        <p>Ресторан средиземноморской кухни с панорамным видом на бухту Балаклавы</p>
+        <a href="{{ url_for('reservation') }}" class="btn">Забронировать столик</a>
+    </div>
+</section>
+
+<!-- Галерея интерьеров -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Наша гавань</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Интерьер ресторана">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Терраса с видом на море">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Барная стойка">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Популярные блюда -->
+<section class="section menu-highlight">
+    <div class="container">
+        <h2 class="section-title">Кулинарные сокровища</h2>
+        <div class="dishes">
+            <div class="dish">
+                <img src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Лаврак по-средиземноморски">
+                <div class="dish-content">
+                    <h3>Лаврак по-средиземноморски</h3>
+                    <p>Черноморский лаврак с томатами, оливками и розмарином</p>
+                    <div class="price">1 450 ₽</div>
+                </div>
+            </div>
+            <div class="dish">
+                <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Паста с морепродуктами">
+                <div class="dish-content">
+                    <h3>Паста с морепродуктами</h3>
+                    <p>Спагетти с мидиями, креветками и кальмарами в томатном соусе</p>
+                    <div class="price">1 250 ₽</div>
+                </div>
+            </div>
+            <div class="dish">
+                <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Уха по-балаклавски">
+                <div class="dish-content">
+                    <h3>Уха по-балаклавски</h3>
+                    <p>Наваристая уха из трех видов рыбы с картофелем и зеленью</p>
+                    <div class="price">890 ₽</div>
+                </div>
+            </div>
+            <div class="dish" role="listitem">
+            <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80" alt="Цезарь с креветками" />
+            <div class="dish-content">
+                <h3>Цезарь с креветками</h3>
+                <p>Салат с хрустящими креветками и соусом Цезарь</p>
+                <div class="price">650 ₽</div>
+            </div>
+        </div>
+        </div>
+        <div class="text-center">
+            <a href="{{ url_for('menu') }}" class="btn">Смотреть полное меню</a>
+        </div>
+    </div>
+</section>
+
+<<div class="about-section">
+    <h2>Как нас найти</h2>
+    <p>Мы находимся по адресу: Крым, Балаклава, Набережная Назукина, 15</p>
+    <p>Часы работы: ежедневно с 10:00 до 23:00</p>
+    <p>Телефон: +7 (978) 123-45-67</p>
+
+    <!-- Карта Яндекс с указанным адресом -->
+    <div style="position:relative;overflow:hidden;width:100%;height:400px;">
+        <iframe
+            src="https://yandex.ru/map-widget/v1/?ll=33.600746%2C44.499433&mode=whatshere&whatshere%5Bpoint%5D=33.600747%2C44.499433&whatshere%5Bzoom%5D=17&z=16"
+            width="100%"
+            height="100%"
+            frameborder="1"
+            allowfullscreen="true"
+            style="position:relative;"
+            title="Ресторан 'Тихая гавань' на Набережной Назукина, 15">
+        </iframe>
+    </div>
+
+</div>
+</section>
+
+{% endblock %}

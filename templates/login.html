@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .auth-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .auth-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .auth-header h1 {
+        font-family: 'Marck Script', cursive;
+        font-size: 3rem;
+        color: #0a2463;
+        margin-bottom: 1rem;
+    }
+
+    .auth-form {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #0a2463;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+
+    .btn-submit {
+        background: #0a2463;
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 5px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+
+    .btn-submit:hover {
+        background: #1a3a6e;
+    }
+
+    .auth-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .auth-container {
+            padding: 1rem;
+        }
+    }
+</style>
+
+<div class="auth-container">
+    <div class="auth-header">
+        <h1>Вход в аккаунт</h1>
+        <p>Введите ваши данные для входа в личный кабинет</p>
+    </div>
+
+    <form class="auth-form" method="POST" action="{{ url_for('login') }}">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Пароль</label>
+            <input type="password" id="password" name="password" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="remember"> Запомнить меня
+            </label>
+        </div>
+
+        <button type="submit" class="btn-submit">Войти</button>
+        
+        <div class="auth-footer">
+            <p>Нет аккаунта? <a href="{{ url_for('register') }}">Зарегистрируйтесь</a></p>
+            <p><a href="{{ url_for('reset_password') }}">Забыли пароль?</a></p>
+        </div>
+    </form>
+</div>
+{% endblock %}
